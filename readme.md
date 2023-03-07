@@ -31,7 +31,7 @@ Run the bot with
 
 - [Telegram bot api framework](https://github.com/go-telegram/bot)
 - [FFMPEG Utils](https://github.com/u2takey/ffmpeg-go)
-- [YT Downloader](https://github.com/kkdai/youtube/v2)
+- [YT Downloader](https://github.com/kkdai/youtube/)
 
 
 
