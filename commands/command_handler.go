@@ -9,15 +9,6 @@ import (
 	"time"
 )
 
-type Command func(ctx context.Context, b *bot.Bot, update *models.Update, args []string) error
-
-type CommandInfo struct {
-	Handler    Command
-	Name       string
-	Desc       string
-	Parameters []Parameter
-}
-
 type CommandHandler struct {
 	Commands []CommandInfo
 }
@@ -40,6 +31,7 @@ func (ch *CommandHandler) HandleCommands(ctx context.Context, b *bot.Bot, update
 		return
 	}
 
+	// help command is injected by default
 	if strings.EqualFold(args[0], "/help") {
 		msg := "Available commands:\n"
 		for _, command := range ch.Commands {
@@ -72,6 +64,7 @@ func (ch *CommandHandler) HandleCommands(ctx context.Context, b *bot.Bot, update
 			return
 		}
 	}
+
 	b.SendMessage(ctx, &bot.SendMessageParams{
 		Text:   "Command not found, type /help to see all commands.",
 		ChatID: update.Message.Chat.ID,
@@ -80,11 +73,15 @@ func (ch *CommandHandler) HandleCommands(ctx context.Context, b *bot.Bot, update
 
 func NewCommandHandler() *CommandHandler {
 	handler := &CommandHandler{}
+
+	// Start command
 	handler.AddCommand(CommandInfo{
 		Handler: StartCommand,
 		Name:    "/start",
 		Desc:    "Starts the bot",
 	})
+
+	// /audio command
 	handler.AddCommand(CommandInfo{
 		Handler: DownloadAudioCommand,
 		Name:    "/audio",
