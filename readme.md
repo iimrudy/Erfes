@@ -9,9 +9,10 @@ erfes is a telegram bot developed in a bunch of hours to help me download and co
 
 ## How to use it?
 
-Download the repo, install the libraries with
+Download the repo cloning it, install the libraries with
 
 `go mod tidy`
+
 `go mod download`
 
 Compile the code with
