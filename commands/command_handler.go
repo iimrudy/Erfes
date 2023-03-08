@@ -87,11 +87,24 @@ func NewCommandHandler() *CommandHandler {
 		Name:    "/audio",
 		Desc:    "Downloads audio from a youtube video",
 		Parameters: []Parameter{
-			Parameter{
+			{
 				"URL",
 				false,
 			},
 		},
 	})
+
+	handler.AddCommand(CommandInfo{
+		Handler: DownloadVideoCommand,
+		Name:    "/video",
+		Desc:    "Downloads video from a youtube video",
+		Parameters: []Parameter{
+			{
+				"URL",
+				false,
+			},
+		},
+	})
+
 	return handler
 }

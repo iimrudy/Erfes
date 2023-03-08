@@ -1,0 +1,14 @@
+{{ .Prefix }}
+
+🎫 **Title**
+`{{ .Title }}`
+
+🫂 **Author**
+`{{ .Author }}`
+
+🕦 **Duration**
+`{{ .Duration }}`
+
+🔗 [URL](https://youtu.be/{{ .ID }})
+
+{{ .Suffix }}
