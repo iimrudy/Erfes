@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"erfes/commands"
-	"erfes/templates"
 	"github.com/go-telegram/bot"
 	"log"
 	"os"
@@ -32,6 +31,5 @@ func main() {
 	}
 
 	log.Printf("Bot started, bot username https://t.me/%s\n", botInfo.Username)
-	log.Println(templates.VideoInfo)
 	b.Start(ctx)
 }

@@ -110,16 +110,12 @@ func uploadVideo(ctx context.Context, b *bot.Bot, msg *models.Message, res resul
 		ParseMode: models.ParseModeMarkdown,
 	}
 
-	_, err = b.SendVideo(ctx, params)
-	if err != nil {
-		return err
-	}
-	_, err = b.DeleteMessage(ctx, &bot.DeleteMessageParams{
+	b.SendVideo(ctx, params)
+
+	b.DeleteMessage(ctx, &bot.DeleteMessageParams{
 		ChatID:    msg.Chat.ID,
 		MessageID: msg.ID,
 	})
-	if err != nil {
-		return err
-	}
+
 	return nil
 }

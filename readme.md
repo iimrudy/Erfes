@@ -4,7 +4,7 @@
 
 ## What is Erfes?
 
-erfes is a telegram bot developed in a bunch of hours to help me download and convert youtube videos as mp3
+erfes is a telegram bot developed in a bunch of hours to help me download and convert YouTube videos as mp3
 
 ---
 

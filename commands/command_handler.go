@@ -15,6 +15,16 @@ type CommandHandler struct {
 
 func (ch *CommandHandler) AddCommand(command CommandInfo) {
 	ch.Commands = append(ch.Commands, command)
+
+	params := ""
+	for _, param := range command.Parameters {
+		if param.Optional {
+			params += "[" + param.Name + "] "
+		} else {
+			params += "<" + param.Name + "> "
+		}
+	}
+	log.Print("[INFO] Added command " + command.Name + " " + params + " - " + command.Desc + "\n")
 }
 
 func (ch *CommandHandler) HandleCommands(ctx context.Context, b *bot.Bot, update *models.Update) {

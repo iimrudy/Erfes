@@ -93,7 +93,7 @@ func uploadAudio(ctx context.Context, b *bot.Bot, msg *models.Message, res resul
 		TransferredBytes: 0,
 		CallBack: func(bytes int64) {
 			percentage := int64(float64(bytes) / float64(fileSize) * 100)
-			if percentage != oldPercentage {
+			if percentage != oldPercentage && percentage%5 == 0 {
 				percentageStr := "Status \\( `" + strconv.FormatInt(percentage, 10) + "` \\) % "
 				status := string(spinner[rotate%len(spinner)])
 				txt := templates.GetVideoInfoTemplate(res.Video, "Downloading", percentageStr+status)
@@ -119,16 +119,12 @@ func uploadAudio(ctx context.Context, b *bot.Bot, msg *models.Message, res resul
 		ParseMode: models.ParseModeMarkdown,
 	}
 
-	_, err = b.SendAudio(ctx, params)
-	if err != nil {
-		return err
-	}
-	_, err = b.DeleteMessage(ctx, &bot.DeleteMessageParams{
+	b.SendAudio(ctx, params)
+
+	b.DeleteMessage(ctx, &bot.DeleteMessageParams{
 		ChatID:    msg.Chat.ID,
 		MessageID: msg.ID,
 	})
-	if err != nil {
-		return err
-	}
+
 	return nil
 }

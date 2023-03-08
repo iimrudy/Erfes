@@ -61,7 +61,7 @@ func DownloadVideo(ctx context.Context, b *bot.Bot, msg *models.Message, video *
 		TransferredBytes: 0,
 		CallBack: func(bytes int64) {
 			percentage := int64(float64(bytes) / float64(fileSize) * 100)
-			if percentage != oldPercentage {
+			if percentage != oldPercentage && percentage%5 == 0 {
 				percentageStr := "Status \\( `" + strconv.FormatInt(percentage, 10) + "` \\) % "
 				status := string(spinner[rotate%len(spinner)])
 				txt := templates.GetVideoInfoTemplate(video, "Downloading", percentageStr+status)
@@ -101,17 +101,13 @@ func DownloadAudio(ctx context.Context, b *bot.Bot, msg *models.Message, video *
 		return "", err
 	}
 	defer os.Remove(fileName)
-	_, err = b.EditMessageText(ctx, &bot.EditMessageTextParams{
+	b.EditMessageText(ctx, &bot.EditMessageTextParams{
 		ChatID:                msg.Chat.ID,
 		MessageID:             msg.ID,
 		Text:                  templates.GetVideoInfoTemplate(video, "Converting to audio", ""),
 		ParseMode:             models.ParseModeMarkdown,
 		DisableWebPagePreview: true,
 	})
-
-	if err != nil {
-		return "", err
-	}
 
 	// remove .mp4
 	fileNameMp3 := fileName[:len(fileName)-4] + ".mp3"
