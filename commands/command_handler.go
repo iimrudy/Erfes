@@ -65,12 +65,14 @@ func (ch *CommandHandler) HandleCommands(ctx context.Context, b *bot.Bot, update
 	for _, command := range ch.Commands {
 		log.Printf("[INFO] Checking command %s\n", command.Name)
 		if strings.EqualFold(args[0], command.Name) {
-			start := time.Now()
-			err := command.Handler(ctx, b, update, args[1:])
-			if err != nil {
-				log.Printf("[ERROR] Command %s failed to proccess: %s\n", command.Name, err)
-			}
-			log.Printf("[INFO] Command %s took %sms to proccess\n", command.Name, time.Since(start))
+			go func() {
+				start := time.Now()
+				err := command.Handler(ctx, b, update, args[1:])
+				if err != nil {
+					log.Printf("[ERROR] Command %s failed to proccess: %s\n", command.Name, err)
+				}
+				log.Printf("[INFO] Command %s took %sms to proccess\n", command.Name, time.Since(start))
+			}()
 			return
 		}
 	}
