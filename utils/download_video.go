@@ -9,11 +9,19 @@ import (
 	"github.com/kkdai/youtube/v2"
 	ffmpeg "github.com/u2takey/ffmpeg-go"
 	"io"
+	"net/http"
 	"os"
 	"strconv"
+	"time"
 )
 
-var client = youtube.Client{Debug: os.Getenv("DEBUG") == "true"}
+var client = youtube.Client{
+	Debug: os.Getenv("DEBUG") == "true",
+	HTTPClient: &http.Client{
+		Timeout: time.Minute * 5,
+	},
+}
+
 var spinner = []rune("↖↗↘↙")
 
 func FetchVideoInfo(ctx context.Context, url string, b *bot.Bot, msg *models.Message) (video *youtube.Video, err error) {
